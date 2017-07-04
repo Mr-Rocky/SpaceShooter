@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameController : MonoBehaviour {
 
@@ -12,25 +13,29 @@ public class GameController : MonoBehaviour {
     public float spawnWait;
     public float waveWait;
 
-    public GUIText scoreText;
-    public GUIText restartText;
-    public GUIText gameOverText;
+    public Text scoreText;
+    //public GUIText restartText;
+    public Text gameOverText;
+    public GameObject restartButton;
+    public GameObject exitButton;
 
     private int score;
     private bool gameOver;
-    private bool restart;
+    //private bool restart;
 
     void Start () {
         gameOver = false;
-        restart = false;
-        restartText.text = "";
+        //restart = false;
+        //restartText.text = "";
+        restartButton.SetActive(false);
         gameOverText.text = "";
+        exitButton.SetActive(false);
         score = 0;
         UpdateScore();
         StartCoroutine (SpawnWaves());
 	}
 
-    void Update ()
+    /*void Update ()
     {
         if (restart)
         {
@@ -39,7 +44,7 @@ public class GameController : MonoBehaviour {
                 SceneManager.LoadScene(SceneManager.GetActiveScene().path);
             }
         }
-    }
+    }*/
 
     IEnumerator SpawnWaves () {
         yield return new WaitForSeconds(spawnStart);
@@ -57,8 +62,10 @@ public class GameController : MonoBehaviour {
 
             if (gameOver)
             {
-                restartText.text = "Press 'R' to restart game.";
-                restart = true;
+                //restartText.text = "Press 'R' to restart game.";
+                restartButton.SetActive(true);
+                exitButton.SetActive(true);
+                //restart = true;
                 break;
             }
         }
@@ -84,5 +91,15 @@ public class GameController : MonoBehaviour {
     {
         gameOverText.text = "Game Over!";
         gameOver = true;
+    }
+
+    public void RestartGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().path);
+    }
+
+    public void ExitGame()
+    {
+        Application.Quit();
     }
 }
