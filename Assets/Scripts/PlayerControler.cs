@@ -15,7 +15,7 @@ public class PlayerControler : MonoBehaviour {
     public float tilt;
     public Boundry boundry;
     public GameObject shot;
-    public Transform shotSpawn;
+    public List<Transform> shotSpawn;
     public float fireRate;
     public AudioSource fireSound; 
 
@@ -31,7 +31,10 @@ public class PlayerControler : MonoBehaviour {
         if (Input.GetButton("Fire1") && Time.time > nextFire)
         {
             nextFire = Time.time + fireRate;
-            Instantiate(shot, shotSpawn.position, shotSpawn.rotation);
+            foreach (Transform spawn in shotSpawn)
+            {
+                Instantiate(shot, spawn.position, spawn.rotation);
+            }
             fireSound.Play();
         }
     }
@@ -47,5 +50,15 @@ public class PlayerControler : MonoBehaviour {
         rigidBody.position = new Vector3(Mathf.Clamp(rigidBody.position.x, boundry.xMin, boundry.xMax), 0.0f, Mathf.Clamp(rigidBody.position.z, boundry.zMin, boundry.zMax));
 
         rigidBody.rotation = Quaternion.Euler(0.0f, 0.0f, rigidBody.velocity.x * -tilt);
+    }
+
+    public void AddSpawnLocation(Transform newSpawn)
+    {
+        shotSpawn.Add(newSpawn);
+    }
+
+    public void RemoveSpawnLocation(Transform oldSpawn)
+    {
+        shotSpawn.Remove(oldSpawn);
     }
 }

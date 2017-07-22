@@ -6,6 +6,7 @@ public class ShieldController : MonoBehaviour {
 
     public GameObject shield;
     public float blinkSpeed;
+    public int maxShield;
 
     private Material shieldMaterial;
     private int allowedHits;
@@ -54,7 +55,7 @@ public class ShieldController : MonoBehaviour {
 
     public void increaseShield(int value)
     {
-        allowedHits += value;
+        allowedHits = Mathf.Min(maxShield, allowedHits + value);
         blink = false;
     }
 

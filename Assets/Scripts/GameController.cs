@@ -15,10 +15,13 @@ public class GameController : MonoBehaviour {
     public float powerUpOdd;
 
     public GUIText scoreText;
+    public GUIText levelText;
     public GUIText restartText;
     public GUIText gameOverText;
 
     private int score;
+    private int scoreMultiplicator;
+    private int levelNumber;
     private bool gameOver;
     private bool restart;
 
@@ -28,7 +31,10 @@ public class GameController : MonoBehaviour {
         restartText.text = "";
         gameOverText.text = "";
         score = 0;
+        scoreMultiplicator = 1;
+        levelNumber = 1;
         UpdateScore();
+        UpdateLevel();
         StartCoroutine (SpawnWaves());
 	}
 
@@ -56,7 +62,7 @@ public class GameController : MonoBehaviour {
                 Instantiate(hazard, spawnPosition, spawnRotation);
 
                 // power up spawn
-                if (powerUpOdd <= Random.value)
+                if (Random.value <= powerUpOdd)
                 {
                     GameObject powerUp = powerUps[Random.Range(0, powerUps.Length)];
                     spawnPosition = new Vector3(Random.Range(-spawnValues.x, spawnValues.x), spawnValues.y, spawnValues.z);
@@ -73,24 +79,39 @@ public class GameController : MonoBehaviour {
                 break;
             }
 
+            // less chance for power ups each wave
+            //powerUpOdd -= 0.05f;
             yield return new WaitForSeconds(waveWait);
+            levelNumber++;
+            UpdateLevel();
         }
     }
     
+    public void IncreaseScoreMultiplicator(int multiplicator)
+    {
+        // TODO: make animation for double points
+        scoreMultiplicator *= multiplicator;
+    }
 
-    /// <summary>
-    /// Increses the score by the given value.
-    /// </summary>
-    /// <param name="newScoreValue">The new score value.</param>
+    public void DecreaseScoreMultiplicator(int multiplicator)
+    {
+        scoreMultiplicator = Mathf.Max(1, scoreMultiplicator/multiplicator);
+    }
+
     public void AddScore (int newScoreValue)
     {
-        score += newScoreValue;
+        score += newScoreValue * scoreMultiplicator;
         UpdateScore();
     }
 
     void UpdateScore()
     {
         scoreText.text = "Score: " + score;
+    }
+
+    void UpdateLevel()
+    {
+        levelText.text = "Level: " + levelNumber;
     }
 
     public void GameOver()
