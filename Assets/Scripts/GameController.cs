@@ -18,6 +18,7 @@ public class GameController : MonoBehaviour {
     public GUIText levelText;
     public GUIText restartText;
     public GUIText gameOverText;
+    public GUIText bonusText;
 
     private int score;
     private int scoreMultiplicator;
@@ -30,6 +31,7 @@ public class GameController : MonoBehaviour {
         restart = false;
         restartText.text = "";
         gameOverText.text = "";
+        bonusText.gameObject.SetActive(false);
         score = 0;
         scoreMultiplicator = 1;
         levelNumber = 1;
@@ -89,7 +91,6 @@ public class GameController : MonoBehaviour {
     
     public void IncreaseScoreMultiplicator(int multiplicator)
     {
-        // TODO: make animation for double points
         scoreMultiplicator *= multiplicator;
     }
 
@@ -102,6 +103,12 @@ public class GameController : MonoBehaviour {
     {
         score += newScoreValue * scoreMultiplicator;
         UpdateScore();
+
+        if (scoreMultiplicator > 1)
+        {
+            bonusText.gameObject.SetActive(true);
+            bonusText.text = "X" + scoreMultiplicator.ToString();
+        }
     }
 
     void UpdateScore()
@@ -111,7 +118,7 @@ public class GameController : MonoBehaviour {
 
     void UpdateLevel()
     {
-        levelText.text = "Level: " + levelNumber;
+        levelText.text = "Round: " + levelNumber;
     }
 
     public void GameOver()

@@ -19,7 +19,7 @@ public class PowerUpShield : MonoBehaviour {
         if (other.CompareTag("Player"))
         {
             Destroy(gameObject);
-            Transform shield = player.transform.Find("Shield");
+            Transform shield = player.transform.Find("Shield(Clone)");
             if (shield != null)
                 shield.gameObject.GetComponent<ShieldController>().increaseShield(increaseValue);
             else
