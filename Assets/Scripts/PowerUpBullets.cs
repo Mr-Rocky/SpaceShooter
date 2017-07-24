@@ -7,14 +7,15 @@ public class PowerUpBullets : MonoBehaviour {
     public GameObject shotSpawnCenter;
     public GameObject shotSpawnLeft;
     public GameObject shotSpawnRight;
-    public GameObject player;
     public int increaseTime;
+
+    private GameObject player;
 
     void Start()
     {
         player = GameObject.FindWithTag("Player");
         if (player == null)
-            Debug.Log("Cannot find player!");
+            Debug.Log("Can not find player!");
     }
 
     void OnTriggerEnter(Collider other)

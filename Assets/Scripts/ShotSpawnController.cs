@@ -17,7 +17,7 @@ public class ShotSpawnController : MonoBehaviour {
 
         player = GameObject.FindWithTag("Player");
         if (player == null)
-            Debug.Log("Cannot find player!");
+            Debug.Log("Can not find player!");
         else
         {
             playerController = player.GetComponent<PlayerControler>();

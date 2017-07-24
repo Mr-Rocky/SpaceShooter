@@ -12,7 +12,7 @@ public class PowerUpDoublePoints : MonoBehaviour {
         gameController = GameObject.FindWithTag("GameController");
         if (gameController == null)
         {
-            Debug.Log("Cannot find gameController!");
+            Debug.Log("Can not find gameController!");
             Destroy(gameObject);
         }
     }

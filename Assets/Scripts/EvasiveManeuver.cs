@@ -12,10 +12,11 @@ public class EvasiveManeuver : MonoBehaviour {
     public Vector2 maneuverTime;
     public Vector2 maneuverWait;
     public Boundry boundry;
+    [HideInInspector]
+    public float currentSpeed;
 
     private Rigidbody rigidBody;
     private float targetManeuver;
-    private float currentSpeed;
     
 	void Start () {
         rigidBody = GetComponent<Rigidbody>();

@@ -13,6 +13,10 @@ public class GameController : MonoBehaviour {
     public float spawnWait;
     public float waveWait;
     public float powerUpOdd;
+    [HideInInspector]
+    public bool pauseSpawn;
+    [HideInInspector]
+    public float pauseSpawnTime;
 
     public GUIText scoreText;
     public GUIText levelText;
@@ -29,6 +33,8 @@ public class GameController : MonoBehaviour {
     void Start () {
         gameOver = false;
         restart = false;
+        pauseSpawn = false;
+        pauseSpawnTime = 1.0f;
         restartText.text = "";
         gameOverText.text = "";
         bonusText.gameObject.SetActive(false);
@@ -70,7 +76,12 @@ public class GameController : MonoBehaviour {
                     spawnPosition = new Vector3(Random.Range(-spawnValues.x, spawnValues.x), spawnValues.y, spawnValues.z);
                     Instantiate(powerUp, spawnPosition, spawnRotation);
                 }
-                 
+
+                if (pauseSpawn)
+                {
+                    pauseSpawn = false;
+                    yield return new WaitForSeconds(pauseSpawnTime);
+                }
                 yield return new WaitForSeconds(spawnWait);
             }
 

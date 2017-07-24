@@ -10,9 +10,24 @@ public class WeaponController : MonoBehaviour {
     public float fireRate;
     public float delay;
 
+    private float timePassed;
+    private float fireLimit;
+
 	void Start () {
-        InvokeRepeating("Fire", delay, fireRate);
-	}
+        //InvokeRepeating("Fire", delay, fireRate);
+        timePassed = 0.0f;
+        fireLimit = delay + fireRate;
+    }
+
+    void Update()
+    {
+        timePassed += Time.deltaTime;
+        if (timePassed > fireLimit)
+        {
+            Fire();
+            timePassed = delay;
+        }
+    }
 
     void Fire ()
     {
